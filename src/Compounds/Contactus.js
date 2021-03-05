@@ -11,7 +11,7 @@ export default function Contactus(props) {
             <button onClick={() => props.history.goBack()}>Go back </button>
             <button onClick={() => props.history.push('/contactus/moredetails')}>go to detail page </button>
             <Switch>
-                <Route path={url + '/moredetails'} component={MoreDetail} />
+                <Route path={url + '/moredetails'} component={(props)=>{return <MoreDetail {...props} />}} />
             </Switch>
 
         </div>

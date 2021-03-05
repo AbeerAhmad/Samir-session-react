@@ -4,10 +4,12 @@ import Header from './Components/header';
 import Home from './Compounds/home';
 import Footer from './Components/footer';
 import { useState, useEffect } from 'react';
-import {  BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Contactus from './Compounds/Contactus';
+import { connect, Provider } from 'react-redux';
+import store from './store/store';
 
-function App() {
+function App(props) {
   const [user, setuser] = useState({ name: 'abeer', id: '1' })
   const [orders, setorder] = useState(0)
 
@@ -28,25 +30,28 @@ function App() {
 
 
 
-  console.log(orders)
+  console.log(props)
 
 
   return (
     <Router >
-      <div className="App">
-        <Header run={run} />
-        <Switch>
+        <div className="App">
+          <Header run={run} />
+          <Switch>
 
-          <Route path='/contactus/:id' component={Contactus} />
+            <Route path='/contactus' component={(props) => { return <Contactus {...props}/> }} />
 
 
-          <Route path='/' component={(props) => { return <Home {...props} user={user} /> }} />
-        </Switch>
-        <Footer />
-      </div>
+            <Route path='/' component={(props) => { return <Home {...props}/> }} />
+          </Switch>
+          <Footer />
+        </div>
     </Router>
-
   );
 }
-
-export default App;
+const mapStateFromProps = (store) => {
+  return {
+      user: store.user.user
+  }
+}
+export default connect(mapStateFromProps)(App);
